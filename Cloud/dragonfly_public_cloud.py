@@ -51,6 +51,7 @@ while True:
         break
     except:
         print('Unexpected error: ',sys.exc_info()[0])
+	time.sleep(5)
 
 print ("Connecting to %s (%s) with %s" % (local_hostname, local_fqdn, ip_address))
 
