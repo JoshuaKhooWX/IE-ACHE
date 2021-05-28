@@ -439,7 +439,14 @@ Curve-ID: brainpoolP256r1
         self.k = K[0]
 
         logger.info('[{}] Shared Secret ss={}'.format(self.name, self.k))
-
+        SharedKeySize = len(binary(self.k))
+        msg="Keysize of Shared Secret Key: " + str(SharedKeySize) + " bits"
+        print(msg)
+        writeKeySize = open('sharedkeysize.txt','a')
+        writeKeySize.write(msg)
+        writeKeySize.write('\n')
+        writeKeySize.close()
+        
         own_message = '{}{}{}{}{}{}'.format(self.k , self.scalar , self.peer_scalar , self.element[0] , self.peer_element[0] , self.mac_address).encode()
 
         H = hashlib.sha256()
@@ -566,6 +573,7 @@ class ClientThread(threading.Thread):
         # print ("Connecting from", client_address)
 
         with self.connection:
+            dragonfly_start = time.perf_counter()
             raw_other_mac = self.connection.recv(1024)
 
             #decode BER and get MAC address
@@ -636,9 +644,15 @@ class ClientThread(threading.Thread):
             sta_token = staToken_decoded.get('data')
 
             print('received STA token', sta_token)
-
             PMK_Key = ap.confirm_exchange(sta_token)
-
+            dragonfly_stop = time.perf_counter()
+            
+            #writing time taken to generate shared key between keygen and client
+            KeyExchangeTiming = open('time.txt', 'a')
+            SIDH_time_total = round((dragonfly_stop - dragonfly_start), 3)
+            KeyExchangeTiming.write('\nTotal Time Taken to Generate Shared Secret Temporal Key for' + str(self.connection) + ': ')
+            KeyExchangeTiming.write(str(SIDH_time_total))
+            KeyExchangeTiming.close()
             # Sending keys to OUTPUT and CLIENTs
             print ("Getting keys...\n")
             lock.acquire()
@@ -689,17 +703,17 @@ def handshake():
     hostup = int(sum([HOSTUP1, HOSTUP2, HOSTUP3]) + 1)
     position = 1
 
-    #dragon_time_start = time.perf_counter()
+    dragon_time_start = time.perf_counter()
 
     # Generate keys once only  
     subprocess.call("./keygen")
     
-    #alice_done = time.perf_counter()
-    #f = open('timings.txt' ,'a')
-    #alice = round((alice_done - dragon_time_start), 3)
-    #f.write('alice:')
-    #f.write(str(alice))
-    #f.close()
+    alice_done = time.perf_counter()
+    f = open('time.txt' ,'a')
+    alice = round((alice_done - dragon_time_start), 3)
+    f.write('\nTime Taken to generate public/private keys for HE: ')
+    f.write(str(alice))
+    f.close()
 
     while True:
         sock.listen()
