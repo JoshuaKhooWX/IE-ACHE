@@ -647,9 +647,9 @@ def handshake():
 
                 PMK_Key = ap.confirm_exchange(sta_token)
                 #print (PMK_Key)
-                        dragonfly_stop = time.perf_counter()
+                dragonfly_stop = time.perf_counter()
                 #Writing time taken to generate PMK between keygen and cloud
-                    keyExchangeTimingCloud = open('time.txt', 'a')
+                keyExchangeTimingCloud = open('time.txt', 'a')
                 dragonfly_time_total = round((dragonfly_stop - dragonfly_start), 3)
                 keyExchangeTimingCloud.write('\nTotal Time Taken to Generate Shared Secret Temporal Key for' + str(connection) + ': ')
                 keyExchangeTimingCloud.write(str(dragonfly_time_total))
