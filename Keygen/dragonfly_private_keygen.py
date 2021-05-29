@@ -719,6 +719,7 @@ def handshake():
     alice = round((alice_done - dragon_time_start), 3)
     f.write('\nTime Taken to generate public/private keys for HE: ')
     f.write(str(alice))
+    f.write('\n========================================')
     f.close()
 
     while True:
