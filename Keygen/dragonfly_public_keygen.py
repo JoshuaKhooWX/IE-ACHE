@@ -573,6 +573,7 @@ def handshake():
 		else:
 			sock.close()
 			with connection:
+				dragonfly_start = time.perf_counter()
 				print ("Connecting from", client_address)
 				raw_other_mac = connection.recv(1024)
 
@@ -646,7 +647,13 @@ def handshake():
 
 				PMK_Key = ap.confirm_exchange(sta_token)
 				#print (PMK_Key)
-		
+		                dragonfly_stop = time.perf_counter()
+				#Writing time taken to generate PMK between keygen and cloud
+			        keyExchangeTimingCloud = open('time.txt', 'a')
+				dragonfly_time_total = round((dragonfly_stop - dragonfly_start), 3)
+				keyExchangeTimingCloud.write('\nTotal Time Taken to Generate Shared Secret Temporal Key for' + str(connection) + ': ')
+				keyExchangeTimingCloud.write(str(dragonfly_time_total))
+				keyExchangeTimingCloud.close()
 				# First let us encrypt secret message
 				#encrypted = encrypt("This is a secret message", PMK_Key)
 				#print("Encrypted ciphertext: ", encrypted.decode('utf-8'))
