@@ -439,13 +439,6 @@ Curve-ID: brainpoolP256r1
         self.k = K[0]
 
         logger.info('[{}] Shared Secret ss={}'.format(self.name, self.k))
-        SharedKeySize = len(binary(self.k))
-        msg="Keysize of Shared Secret Key: " + str(SharedKeySize) + " bits"
-        print(msg)
-        writeKeySize = open('sharedkeysize.txt','a')
-        writeKeySize.write(msg)
-        writeKeySize.write('\n')
-        writeKeySize.close()
         
         own_message = '{}{}{}{}{}{}'.format(self.k , self.scalar , self.peer_scalar , self.element[0] , self.peer_element[0] , self.mac_address).encode()
 
@@ -470,11 +463,24 @@ Curve-ID: brainpoolP256r1
 
         # Pairwise Master Key” (PMK)
         # compute PMK = H(k | scal(AP1) + scal(AP2) mod q)
-        pmk_message = '{}{}'.format(self.k, (self.scalar + self.peer_scalar) % self.q).encode()
+        pmk_message = '{}{}'.format(self.k, (self.scalar + self.peer_scalar) % self.q)
+        
+        #Getting Key Size of Shared Secret
+        binary = lambda n: n>0 and [n&1]+binary(n>>1) or []
+        pmkMessageKeySize = len(binary(int(pmk_message)))
+        msg="Keysize of pmk message(unhashed pmk): " + str(pmkMessageKeySize) + " bits"
+        print(msg)
+        writeKeySize = open('keysize.txt','a')
+        writeKeySize.write(msg)
+        writeKeySize.write('\n')
+        writeKeySize.close()
+        
+        pmk_message_encoded = pmk_message.encode()
+        
         #H = hashlib.sha256()
         #H.update(pmk_message)
-        self.PMK = hashlib.sha256(pmk_message).digest()
-
+        self.PMK = hashlib.sha256(pmk_message_encoded).digest()
+        
         logger.info('[{}] Pairwise Master Key(PMK)={}'.format(self.name, self.PMK))
         return self.PMK
 
