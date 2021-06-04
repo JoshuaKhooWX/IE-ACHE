@@ -734,7 +734,7 @@ def handshake():
             hostup -= 1
             position = 0
         elif hostup != 0 and position == 0 and (client_address[0]) != "192.168.0.1":
-            newThread = ClientThread(connection, client_address, dragonfly_end)
+            newThread = ClientThread(connection, client_address, dragonfly_start)
             newThread.start()
             hostup -=1
         elif hostup == 0:
