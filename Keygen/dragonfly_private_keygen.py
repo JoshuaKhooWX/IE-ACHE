@@ -559,7 +559,7 @@ def encrypting(key, filename):
     return outputFile
 
 class ClientThread(threading.Thread):
-    def __init__(self,connection,clientAddr,dragonfly_start):
+    def __init__(self,connection,clientAddr, dragonfly_start):
         threading.Thread.__init__(self)
         self.clientAddr = clientAddr
         self.dragonfly_start = dragonfly_start
@@ -580,7 +580,6 @@ class ClientThread(threading.Thread):
         # print ("Connecting from", client_address)
 
         with self.connection:
-            dragonfly_start = time.perf_counter()
             raw_other_mac = self.connection.recv(1024)
 
             #decode BER and get MAC address
