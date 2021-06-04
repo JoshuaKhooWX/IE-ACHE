@@ -559,9 +559,10 @@ def encrypting(key, filename):
     return outputFile
 
 class ClientThread(threading.Thread):
-    def __init__(self,connection,clientAddr):
+    def __init__(self,connection,clientAddr,dragonfly_start):
         threading.Thread.__init__(self)
         self.clientAddr = clientAddr
+        self.dragonfly_start = dragonfly_start
         self.connection = connection
         print("Connection coming from", connection)
 
@@ -655,7 +656,7 @@ class ClientThread(threading.Thread):
             
             #writing time taken to generate shared key between keygen and client
             KeyExchangeTiming = open('time.txt', 'a')
-            SIDH_time_total = round((dragonfly_stop - dragonfly_start), 3)
+            SIDH_time_total = round((dragonfly_stop - self.dragonfly_start), 3)
             KeyExchangeTiming.write('\nTotal Time Taken to Generate Shared Secret Temporal Key for' + str(self.connection) + ': ')
             KeyExchangeTiming.write(str(SIDH_time_total))
             KeyExchangeTiming.close()
@@ -723,16 +724,17 @@ def handshake():
     f.close()
 
     while True:
+        dragonfly_start = time.perf_counter()
         sock.listen()
         connection, client_address = sock.accept()
         threading_name = str(hostup)
         if (client_address[0]) == "192.168.0.4" and position == 1:
-            newThread = ClientThread(connection, client_address)
+            newThread = ClientThread(connection, client_address, dragonfly_start)
             newThread.start()
             hostup -= 1
             position = 0
         elif hostup != 0 and position == 0 and (client_address[0]) != "192.168.0.1":
-            newThread = ClientThread(connection, client_address)
+            newThread = ClientThread(connection, client_address, dragonfly_end)
             newThread.start()
             hostup -=1
         elif hostup == 0:
