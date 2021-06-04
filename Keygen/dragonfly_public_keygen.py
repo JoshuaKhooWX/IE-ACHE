@@ -565,6 +565,7 @@ def handshake():
     # Connect to the cloud server
     while True:
         print("Waiting for cloud")
+        dragonfly_start = time.perf_counter()
         sock.listen(1)
         connection, client_address = sock.accept()
         if (client_address[0]) != '192.168.0.1':
@@ -573,7 +574,6 @@ def handshake():
         else:
             sock.close()
             with connection:
-                dragonfly_start = time.perf_counter()
                 print ("Connecting from", client_address)
                 raw_other_mac = connection.recv(1024)
 
