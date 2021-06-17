@@ -663,6 +663,7 @@ class ClientThread(threading.Thread):
             print ("Getting keys...\n")
             lock.acquire()
 
+            encrypt_start = time.perf_counter()
             print("Printing secret key...\n")
             secret_key = "secret.key"
 
@@ -691,6 +692,17 @@ class ClientThread(threading.Thread):
                 nbitcontent = t.read(8192)
                 priv_key_BER = asn1_file.encode('DataKey', {'key': keycontent, 'nbit': nbitcontent})
             s.close()
+            t.close()
+            
+            encrypt_stop = time.perf_counter()
+            #writing time taken to generate shared key between keygen and client
+            KeyExchangeTiming = open('time.txt', 'a')
+            encrypt_time_total = round((encrypt_stop - encrypt_start), 3)
+            KeyExchangeTiming.write('\nTotal Time Taken to Encryption/Decryption of keys for' + str(self.connection) + ': ')
+            KeyExchangeTiming.write(str(encrypt_time_total))
+            KeyExchangeTiming.write(str('--------------------------------------------------'))
+            KeyExchangeTiming.close()
+            
             print('Original secret key file size: ', os.path.getsize(secret_key))
             print ('Encrypted secret key file size: ', os.path.getsize(output_secret_key))
             os.system("md5sum secret.key")
@@ -709,18 +721,18 @@ def handshake():
     hostup = int(sum([HOSTUP1, HOSTUP2, HOSTUP3]) + 1)
     position = 1
 
-    dragon_time_start = time.perf_counter()
+    #dragon_time_start = time.perf_counter()
 
     # Generate keys once only  
     subprocess.call("./keygen")
     
-    alice_done = time.perf_counter()
-    f = open('time.txt' ,'a')
-    alice = round((alice_done - dragon_time_start), 3)
-    f.write('\nTime Taken to generate public/private keys for HE: ')
-    f.write(str(alice))
-    f.write('\n========================================\n')
-    f.close()
+    #alice_done = time.perf_counter()
+    #f = open('time.txt' ,'a')
+    #alice = round((alice_done - dragon_time_start), 3)
+    #f.write('\nTime Taken to generate public/private keys for HE: ')
+    #f.write(str(alice))
+    #f.write('\n========================================\n')
+    #f.close()
 
     while True:
         dragonfly_start = time.perf_counter()
