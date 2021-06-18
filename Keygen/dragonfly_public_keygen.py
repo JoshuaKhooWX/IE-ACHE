@@ -662,6 +662,7 @@ def handshake():
                 # Running c++ Adder_alice to get the public key
                 print ("Getting keys...\n")
                 print("Printing cloud key...\n")
+                encrypt_start = time.perf_counter()
                 cloud_key = "cloud.key"
                 nbit_key = "nbit.key"
 
@@ -692,6 +693,16 @@ def handshake():
                     encoded_keys = asn1_file.encode('DataKey', {'key': keycontent, 'nbit': nbitkeycontent})
                 s.close()
                 t.close()
+                
+                encrypt_stop = time.perf_counter()
+                #writing time taken to generate shared key between keygen and client
+                KeyExchangeTiming = open('time.txt', 'a')
+                encrypt_time_total = round((encrypt_stop - encrypt_start), 3)
+                KeyExchangeTiming.write('\nTotal Time Taken to Encryption/Decryption of keys for' + str(self.connection) + ': ')
+                KeyExchangeTiming.write(str(encrypt_time_total))
+                KeyExchangeTiming.write(str('\n========================================'))
+                KeyExchangeTiming.close()
+            
 
                 print('Original cloud file size: ', os.path.getsize(cloud_key))
                 print ('Encrypted cloud file size: ', os.path.getsize(cloudkey))
