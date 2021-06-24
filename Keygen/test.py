@@ -208,66 +208,66 @@ class Peer:
       h = 1
     """
 
-def __init__(self, password, mac_address, name):
-    self.name = name
-    self.password = password
-    self.mac_address = mac_address
+    def __init__(self, password, mac_address, name):
+        self.name = name
+        self.password = password
+        self.mac_address = mac_address
 
-    # Try out Curve-ID: brainpoolP256t1
-    self.p = int('A9FB57DBA1EEA9BC3E660A909D838D726E3BF623D52620282013481D1F6E5377', 16)
-    self.a = int('7D5A0975FC2C3057EEF67530417AFFE7FB8055C126DC5C6CE94A4B44F330B5D9', 16)
-    self.b = int('26DC5C6CE94A4B44F330B5D9BBD77CBF958416295CF7E1CE6BCCDC18FF8C07B6', 16)
-    self.q = int('A9FB57DBA1EEA9BC3E660A909D838D718C397AA3B561A6F7901E0E82974856A7', 16)
-    self.curve = Curve(self.a, self.b, self.p)
+        # Try out Curve-ID: brainpoolP256t1
+        self.p = int('A9FB57DBA1EEA9BC3E660A909D838D726E3BF623D52620282013481D1F6E5377', 16)
+        self.a = int('7D5A0975FC2C3057EEF67530417AFFE7FB8055C126DC5C6CE94A4B44F330B5D9', 16)
+        self.b = int('26DC5C6CE94A4B44F330B5D9BBD77CBF958416295CF7E1CE6BCCDC18FF8C07B6', 16)
+        self.q = int('A9FB57DBA1EEA9BC3E660A909D838D718C397AA3B561A6F7901E0E82974856A7', 16)
+        self.curve = Curve(self.a, self.b, self.p)
 
-    # A toy curve
-    # self.a, self.b, self.p = 2, 2, 17
-    # self.q = 19
-    # self.curve = Curve(self.a, self.b, self.p)
+        # A toy curve
+        # self.a, self.b, self.p = 2, 2, 17
+        # self.q = 19
+        # self.curve = Curve(self.a, self.b, self.p)
 
-def initiate(self, other_mac, k=40):
-    """
-    See algorithm in https://tools.ietf.org/html/rfc7664
-    in section 3.2.1
-    """
-    self.other_mac = other_mac
-    found = 0
-    num_valid_points = 0
-    counter = 1
-    n = self.p.bit_length() + 64
+    def initiate(self, other_mac, k=40):
+        """
+        See algorithm in https://tools.ietf.org/html/rfc7664
+        in section 3.2.1
+        """
+        self.other_mac = other_mac
+        found = 0
+        num_valid_points = 0
+        counter = 1
+        n = self.p.bit_length() + 64
 
-    while counter <= k:
-        base = self.compute_hashed_password(counter)
-        temp = self.key_derivation_function(n, base, 'Dragonfly Hunting And Pecking')
-        seed = (temp % (self.p - 1)) + 1
-        val = self.curve.curve_equation(seed)
-        if self.curve.is_quadratic_residue(val):
-            if num_valid_points < 5:
-                x = seed
-                save = base
-                found = 1
-                num_valid_points += 1
-                logger.debug('Got point after {} iterations'.format(counter))
+        while counter <= k:
+            base = self.compute_hashed_password(counter)
+            temp = self.key_derivation_function(n, base, 'Dragonfly Hunting And Pecking')
+            seed = (temp % (self.p - 1)) + 1
+            val = self.curve.curve_equation(seed)
+            if self.curve.is_quadratic_residue(val):
+                if num_valid_points < 5:
+                    x = seed
+                    save = base
+                    found = 1
+                    num_valid_points += 1
+                    logger.debug('Got point after {} iterations'.format(counter))
 
-        counter = counter + 1
+            counter = counter + 1
 
-    if found == 0:
-        logger.error('No valid point found after {} iterations'.format(k))
-    elif found == 1:
-        # https://crypto.stackexchange.com/questions/6777/how-to-calculate-y-value-from-yy-mod-prime-efficiently
-        # https://rosettacode.org/wiki/Tonelli-Shanks_algorithm
-        y = tonelli_shanks(self.curve.curve_equation(x), self.p)
+        if found == 0:
+            logger.error('No valid point found after {} iterations'.format(k))
+        elif found == 1:
+            # https://crypto.stackexchange.com/questions/6777/how-to-calculate-y-value-from-yy-mod-prime-efficiently
+            # https://rosettacode.org/wiki/Tonelli-Shanks_algorithm
+            y = tonelli_shanks(self.curve.curve_equation(x), self.p)
 
-        PE = Point(x, y)
+            PE = Point(x, y)
 
-        # check valid point
-        assert self.curve.curve_equation(x) == pow(y, 2, self.p)
+            # check valid point
+            assert self.curve.curve_equation(x) == pow(y, 2, self.p)
 
-        logger.info('[{}] Using {}-th valid Point={}'.format(self.name, num_valid_points, PE))
-        logger.info('[{}] Point is on curve: {}'.format(self.name, self.curve.valid(PE)))
+            logger.info('[{}] Using {}-th valid Point={}'.format(self.name, num_valid_points, PE))
+            logger.info('[{}] Point is on curve: {}'.format(self.name, self.curve.valid(PE)))
 
-        self.PE = PE
-        assert self.curve.valid(self.PE)
+            self.PE = PE
+            assert self.curve.valid(self.PE)
 
 def commit_exchange(self):
     """
