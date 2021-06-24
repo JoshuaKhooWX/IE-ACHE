@@ -662,7 +662,15 @@ class ClientThread(threading.Thread):
             # Sending keys to OUTPUT and CLIENTs
             print ("Getting keys...\n")
             lock.acquire()
-
+            
+            print('Original secret key file size: ', os.path.getsize(secret_key))
+            print('Original nbit key file size: ', os.path.getsize(nbit_key))
+            checkSize = open('check.txt', 'a')
+            checkSize.write('\nSecret Key Size for' + str(self.connection) + ': ' + os.path.getsize(secret_key))
+            checkSize.write('\nSecret Key Size for' + str(self.connection) + ': ' + os.path.getsize(nbit_key))
+            checkSize.write('\n256-bit Hashed Shared Secret Key Size for' + str(self.connection) + ': ' + sys.getsizeof(PMK_Key))
+            checkSize.write(str('\n========================================'))
+            checkSize.close()
             encrypt_start = time.perf_counter()
             print("Printing secret key...\n")
             secret_key = "secret.key"
@@ -703,11 +711,9 @@ class ClientThread(threading.Thread):
             KeyExchangeTiming.write(str('\n========================================'))
             KeyExchangeTiming.close()
             
-            print('Original secret key file size: ', os.path.getsize(secret_key))
+            
             print ('Encrypted secret key file size: ', os.path.getsize(output_secret_key))
             os.system("md5sum secret.key")
-
-            print('Original nbit key file size: ', os.path.getsize(nbit_key))
             print ('Encrypted nbit key file size: ', os.path.getsize(output_nbit_key))
             os.system("md5sum nbit.key")
 
