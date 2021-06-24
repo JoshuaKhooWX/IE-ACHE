@@ -467,7 +467,7 @@ class Peer:
         digest = H.digest()
         return digest
 
-    def encrypting(key, filename):
+def encrypting(key, filename):
     chunksize = 64*1024
     outputFile = filename+".hacklab"
     filesize = str(os.path.getsize(filename)).zfill(16)
@@ -477,14 +477,14 @@ class Peer:
     with open(filename, 'rb') as infile:
         with open(outputFile, 'wb') as outfile:
             outfile.write(filesize.encode('utf-8'))
-            outfile.write(IV)
-            while True:
-                chunk = infile.read(chunksize)
-                if len(chunk) == 0:
-                    break
-                elif len(chunk) % 16 != 0:
-                    chunk += b' ' * (16 - (len(chunk) % 16))
-                outfile.write(encryptor.encrypt(chunk))
+           outfile.write(IV)
+           while True:
+               chunk = infile.read(chunksize)
+               if len(chunk) == 0:
+                  break
+               elif len(chunk) % 16 != 0:
+                  chunk += b' ' * (16 - (len(chunk) % 16))
+                  outfile.write(encryptor.encrypt(chunk))
 
     return outputFile
 
