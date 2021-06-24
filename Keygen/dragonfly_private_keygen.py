@@ -663,6 +663,11 @@ class ClientThread(threading.Thread):
             print ("Getting keys...\n")
             lock.acquire()
             
+            print("Printing secret key...\n")
+            secret_key = "secret.key"
+
+            print("Printing nbit key...\n")
+            nbit_key = "nbit.key"
             print('Original secret key file size: ', os.path.getsize(secret_key))
             print('Original nbit key file size: ', os.path.getsize(nbit_key))
             checkSize = open('check.txt', 'a')
@@ -672,11 +677,7 @@ class ClientThread(threading.Thread):
             checkSize.write(str('\n========================================'))
             checkSize.close()
             encrypt_start = time.perf_counter()
-            print("Printing secret key...\n")
-            secret_key = "secret.key"
-
-            print("Printing nbit key...\n")
-            nbit_key = "nbit.key"
+            
 
             output_secret_key = encrypting(PMK_Key, secret_key)
             print("This file ", output_secret_key, " is encrypted secret key\n")
