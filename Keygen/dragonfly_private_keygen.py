@@ -31,6 +31,7 @@ from optparse import *
 from _thread import *
 import asn1tools
 import threading
+import sys
 
 lock = threading.Lock()
 
