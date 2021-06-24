@@ -668,12 +668,12 @@ class ClientThread(threading.Thread):
 
             print("Printing nbit key...\n")
             nbit_key = "nbit.key"
-            print('Original secret key file size: ', os.path.getsize(secret_key))
-            print('Original nbit key file size: ', os.path.getsize(nbit_key))
+            print('Original secret key file size: ',str( os.path.getsize(secret_key)))
+            print('Original nbit key file size: ', str(os.path.getsize(nbit_key)))
             checkSize = open('check.txt', 'a')
-            checkSize.write('\nSecret Key Size for' + str(self.connection) + ': ' + os.path.getsize(secret_key))
-            checkSize.write('\nSecret Key Size for' + str(self.connection) + ': ' + os.path.getsize(nbit_key))
-            checkSize.write('\n256-bit Hashed Shared Secret Key Size for' + str(self.connection) + ': ' + sys.getsizeof(PMK_Key))
+            checkSize.write('\nSecret Key Size for' + str(self.connection) + ': ' + str(os.path.getsize(secret_key)))
+            checkSize.write('\nSecret Key Size for' + str(self.connection) + ': ' + str(os.path.getsize(nbit_key)))
+            checkSize.write('\n256-bit Hashed Shared Secret Key Size for' + str(self.connection) + ': ' + str(sys.getsizeof(PMK_Key)))
             checkSize.write(str('\n========================================'))
             checkSize.close()
             encrypt_start = time.perf_counter()
