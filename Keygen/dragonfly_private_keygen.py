@@ -671,12 +671,12 @@ class ClientThread(threading.Thread):
             nbit_key = "nbit.key"
             print('Original secret key file size: ',str( os.path.getsize(secret_key)))
             print('Original nbit key file size: ', str(os.path.getsize(nbit_key)))
-            checkSize = open('check.txt', 'a')
-            checkSize.write('\nSecret Key Size for' + str(self.connection) + ': ' + str(os.path.getsize(secret_key)))
-            checkSize.write('\nSecret Key Size for' + str(self.connection) + ': ' + str(os.path.getsize(nbit_key)))
-            checkSize.write('\n256-bit Hashed Shared Secret Key Size for' + str(self.connection) + ': ' + str(sys.getsizeof(PMK_Key)))
-            checkSize.write(str('\n========================================'))
-            checkSize.close()
+            #checkSize = open('check.txt', 'a')
+            #checkSize.write('\nSecret Key Size for' + str(self.connection) + ': ' + str(os.path.getsize(secret_key)))
+            #checkSize.write('\nSecret Key Size for' + str(self.connection) + ': ' + str(os.path.getsize(nbit_key)))
+            #checkSize.write('\n256-bit Hashed Shared Secret Key Size for' + str(self.connection) + ': ' + str(sys.getsizeof(PMK_Key)))
+            #checkSize.write(str('\n========================================'))
+            #checkSize.close()
             encrypt_start = time.perf_counter()
             
 
@@ -709,10 +709,10 @@ class ClientThread(threading.Thread):
             transmission_encrypt_stop = time.perf_counter()
             
             #writing time taken to generate shared key between keygen and client
-            transmitEncryptTime = open('time2.txt', 'a')
+            transmitEncryptTime = open('encryptTime.txt', 'a')
             encrypt_time_total = round((encrypt_stop - encrypt_start), 3)
             transmit_total = round((transmission_encrypt_stop - encrypt_stop, 3)
-            transmitEncryptTime.write('\nTotal Time Taken to Encryption of keys for' + str(self.connection) + ': ')
+            transmitEncryptTime.write('\nTotal Time Taken to encrypt keys' + str(self.connection) + ': ')
             transmitEncryptTime.write(str(encrypt_time_total))
             transmitEncryptTime.write('\nTotal Time taken to send encrypted key to' + str(self.connection) + ': ')
             transmitEncryptTime.write(str(transmit_total))
