@@ -732,13 +732,13 @@ class ClientThread(threading.Thread):
             os.system("md5sum nbit.key")
             
             #(Transition delay)
-            delay_time =time.perf_counter
+            delay_time = time.perf_counter
             
-            transitionDelay = open('delay.txt', 'a')
+            transitionDelay2 = open('delay.txt', 'a')
             delay_time_total2 = round((delay_time - transmission_encrypt_stop), 3)
-            transitionDelay.write('\nTransition Delay between sending of encrypted keys and end of thread code for' + str(self.connection) + ': ')
-            transitionDelay.write(str(delay_time_total2))
-            transitionDelay.close()
+            transitionDelay2.write('\nTransition Delay between sending of encrypted keys and end of thread code for' + str(self.connection) + ': ')
+            transitionDelay2.write(str(delay_time_total2))
+            transitionDelay2.close()
 
             lock.release()
 
