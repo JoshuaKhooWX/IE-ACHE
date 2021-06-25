@@ -732,7 +732,7 @@ class ClientThread(threading.Thread):
             os.system("md5sum nbit.key")
             
             #(Transition delay)
-            delay_time = time.perf_counter
+            delay_time = time.perf_counter()
             
             transitionDelay2 = open('delay.txt', 'a')
             delay_time_total2 = round((delay_time - transmission_encrypt_stop), 3)
