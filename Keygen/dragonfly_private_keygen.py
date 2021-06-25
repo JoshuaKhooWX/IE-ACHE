@@ -717,7 +717,7 @@ class ClientThread(threading.Thread):
             transmitEncryptTime.write('\nTotal Time taken to send encrypted key to' + str(self.connection) + ': ')
             transmitEncryptTime.write(str(transmit_total))
             transmitEncryptTime.write(str('\n========================================'))
-            KeyExchangeTiming.close()
+            transmitEncryptTime.close()
             
             
             print ('Encrypted secret key file size: ', os.path.getsize(output_secret_key))
