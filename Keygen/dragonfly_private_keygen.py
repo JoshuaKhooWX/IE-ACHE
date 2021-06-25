@@ -714,7 +714,7 @@ class ClientThread(threading.Thread):
             KeyExchangeTiming.write('\nTotal Time Taken to Encryption of keys for' + str(self.connection) + ': ')
             KeyExchangeTiming.write(str(encrypt_time_total))
             transmit_total = round((transmission_encrypt_stop - encrypt_stop, 3)
-            KeyExchangeTiming.write('\nTotal Time taken to send encrypted key to ' + str(self.connection) + ': ")
+            KeyExchangeTiming.write('\nTotal Time taken to send encrypted key to ' + str(self.connection) + ': ')
             KeyExchangeTiming.write(str(transmit_total))
             KeyExchangeTiming.write(str('\n========================================'))
             KeyExchangeTiming.close()
