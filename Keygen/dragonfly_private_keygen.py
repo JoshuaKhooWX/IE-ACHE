@@ -679,13 +679,19 @@ class ClientThread(threading.Thread):
             #checkSize.close()
             encrypt_start = time.perf_counter()
             
-
+            transitionDelay = open('delay.txt', 'a')
+            delay_time_total = round((encrypt_start - dragonfly_stop), 3)
+            transitionDelay.write('\nTransition Delay between shared session and encryption' + str(self.connection) + ': ')
+            transitionDelay.write(str(delay_time_total))
+            transitionDelay.close()
+            
+            
             output_secret_key = encrypting(PMK_Key, secret_key)
             print("This file ", output_secret_key, " is encrypted secret key\n")
             
             output_nbit_key = encrypting(PMK_Key, nbit_key)
             print("This file ", output_nbit_key, " is encrypted nbit key\n")
-            
+            #end of encryption
             encrypt_stop = time.perf_counter()
 
             s = open(output_secret_key, "rb")
@@ -705,7 +711,7 @@ class ClientThread(threading.Thread):
                 priv_key_BER = asn1_file.encode('DataKey', {'key': keycontent, 'nbit': nbitcontent})
             s.close()
             t.close()
-            
+            #end of sending encrypted keys to peer
             transmission_encrypt_stop = time.perf_counter()
             
             #writing time taken to generate shared key between keygen and client
