@@ -709,14 +709,14 @@ class ClientThread(threading.Thread):
             transmission_encrypt_stop = time.perf_counter()
             
             #writing time taken to generate shared key between keygen and client
-            KeyExchangeTiming = open('time2.txt', 'a')
+            transmitEncryptTime = open('time2.txt', 'a')
             encrypt_time_total = round((encrypt_stop - encrypt_start), 3)
-            KeyExchangeTiming.write('\nTotal Time Taken to Encryption of keys for' + str(self.connection) + ': ')
-            KeyExchangeTiming.write(str(encrypt_time_total))
             transmit_total = round((transmission_encrypt_stop - encrypt_stop, 3)
-            KeyExchangeTiming.write('\nTotal Time taken to send encrypted key to ' + str(self.connection) + ': ')
-            KeyExchangeTiming.write(str(transmit_total))
-            KeyExchangeTiming.write(str('\n========================================'))
+            transmitEncryptTime.write('\nTotal Time Taken to Encryption of keys for' + str(self.connection) + ': ')
+            transmitEncryptTime.write(str(encrypt_time_total))
+            transmitEncryptTime.write('\nTotal Time taken to send encrypted key to' + str(self.connection) + ': ')
+            transmitEncryptTime.write(str(transmit_total))
+            transmitEncryptTime.write(str('\n========================================'))
             KeyExchangeTiming.close()
             
             
