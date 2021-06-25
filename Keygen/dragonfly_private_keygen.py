@@ -734,7 +734,7 @@ class ClientThread(threading.Thread):
             #(Transition delay)
             delay_time =time.perf_counter
             
-            transitionDelay2 = open('delay.txt', 'a')
+            transitionDelay = open('delay.txt', 'a')
             delay_time_total2 = round((delay_time - transmission_encrypt_stop), 3)
             transitionDelay.write('\nTransition Delay between sending of encrypted keys and end of thread code for' + str(self.connection) + ': ')
             transitionDelay.write(str(delay_time_total2))
