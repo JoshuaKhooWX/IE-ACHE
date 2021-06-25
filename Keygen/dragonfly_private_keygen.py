@@ -730,6 +730,15 @@ class ClientThread(threading.Thread):
             os.system("md5sum secret.key")
             print ('Encrypted nbit key file size: ', os.path.getsize(output_nbit_key))
             os.system("md5sum nbit.key")
+            
+            #(Transition delay)
+            delay_time =time.perf_counter
+            
+            transitionDelay2 = open('delay.txt', 'a')
+            delay_time_total2 = round((delay_time - transmission_encrypt_stop), 3)
+            transitionDelay.write('\nTransition Delay between sending of encrypted keys and end of thread code for' + str(self.connection) + ': ')
+            transitionDelay.write(str(delay_time_total2))
+            transitionDelay.close()
 
             lock.release()
 
