@@ -685,6 +685,8 @@ class ClientThread(threading.Thread):
             
             output_nbit_key = encrypting(PMK_Key, nbit_key)
             print("This file ", output_nbit_key, " is encrypted nbit key\n")
+            
+            encrypt_stop = time.perf_counter()
 
             s = open(output_secret_key, "rb")
             keycontent = s.read(8192)
@@ -704,12 +706,16 @@ class ClientThread(threading.Thread):
             s.close()
             t.close()
             
-            encrypt_stop = time.perf_counter()
+            transmission_encrypt_stop = time.perf_counter()
+            
             #writing time taken to generate shared key between keygen and client
-            KeyExchangeTiming = open('time.txt', 'a')
+            KeyExchangeTiming = open('time2.txt', 'a')
             encrypt_time_total = round((encrypt_stop - encrypt_start), 3)
-            KeyExchangeTiming.write('\nTotal Time Taken to Encryption/Decryption of keys for' + str(self.connection) + ': ')
+            KeyExchangeTiming.write('\nTotal Time Taken to Encryption of keys for' + str(self.connection) + ': ')
             KeyExchangeTiming.write(str(encrypt_time_total))
+            transmit_total = round((transmission_encrypt_stop - encrypt_stop, 3)
+            KeyExchangeTiming.write('\nTotal Time taken to send encrypted key to ' + str(self.connection) + ': ")
+            KeyExchangeTiming.write(str(transmit_total))
             KeyExchangeTiming.write(str('\n========================================'))
             KeyExchangeTiming.close()
             
