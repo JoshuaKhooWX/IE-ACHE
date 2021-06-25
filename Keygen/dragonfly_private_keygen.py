@@ -711,7 +711,7 @@ class ClientThread(threading.Thread):
             #writing time taken to generate shared key between keygen and client
             transmitEncryptTime = open('encryptTime.txt', 'a')
             encrypt_time_total = round((encrypt_stop - encrypt_start), 3)
-            transmit_total = round((transmission_encrypt_stop - encrypt_stop, 3)
+            transmit_total = round((transmission_encrypt_stop - encrypt_stop), 3)
             transmitEncryptTime.write('\nTotal Time Taken to encrypt keys' + str(self.connection) + ': ')
             transmitEncryptTime.write(str(encrypt_time_total))
             transmitEncryptTime.write('\nTotal Time taken to send encrypted key to' + str(self.connection) + ': ')
