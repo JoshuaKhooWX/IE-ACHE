@@ -662,9 +662,18 @@ def handshake():
                 # Running c++ Adder_alice to get the public key
                 print ("Getting keys...\n")
                 print("Printing cloud key...\n")
-                encrypt_start = time.perf_counter()
+                
+                
                 cloud_key = "cloud.key"
                 nbit_key = "nbit.key"
+                
+                encrypt_start = time.perf_counter()
+                
+                transitionDelay = open('delay.txt', 'a')
+                delay_time_total = round((encrypt_start - dragonfly_stop), 3)
+                transitionDelay.write('\nTransition Delay between shared session and encryption' + str(self.connection) + ': ')
+                transitionDelay.write(str(delay_time_total))
+                transitionDelay.close()                
 
                 # encrypt cloudkey
                 cloudkey = encrypting(PMK_Key, cloud_key)
@@ -673,6 +682,9 @@ def handshake():
                 # encrypt nbitkey
                 nbitkey = encrypting(PMK_Key, nbit_key)
                 print("This file ", nbitkey, " is encrypted nbit key\n")
+                
+                #end of encryption
+                encrypt_stop = time.perf_counter()
                 
                 # Open the cloudkey file and read its content
                 s = open(cloudkey, "rb")
@@ -694,14 +706,19 @@ def handshake():
                 s.close()
                 t.close()
                 
-                encrypt_stop = time.perf_counter()
+                #end of sending encrypted keys to peer
+                transmission_encrypt_stop = time.perf_counter()
+                
                 #writing time taken to generate shared key between keygen and client
-                KeyExchangeTiming = open('time.txt', 'a')
+                transmitEncryptTime = open('encryptTime.txt', 'a')
                 encrypt_time_total = round((encrypt_stop - encrypt_start), 3)
-                KeyExchangeTiming.write('\nTotal Time Taken to Encryption/Decryption of keys for' + str(connection) + ': ')
-                KeyExchangeTiming.write(str(encrypt_time_total))
-                KeyExchangeTiming.write(str('\n========================================'))
-                KeyExchangeTiming.close()
+                transmit_total = round((transmission_encrypt_stop - encrypt_stop), 3)
+                transmitEncryptTime.write('\nTotal Time Taken to encrypt keys' + str(connection) + ': ')
+                transmitEncryptTime.write(str(encrypt_time_total))
+                transmitEncryptTime.write('\nTotal Time taken to send encrypted key to' + str(connection) + ': ')
+                transmitEncryptTime.write(str(transmit_total))
+                transmitEncryptTime.write(str('\n========================================'))
+                transmitEncryptTime.close()
             
 
                 print('Original cloud file size: ', os.path.getsize(cloud_key))
@@ -711,6 +728,15 @@ def handshake():
                 print('Original nbit key file size: ', os.path.getsize(nbit_key))
                 print('Encrypted nbit key file size: ', os.path.getsize(nbitkey))
                 os.system("md5sum nbit.key")
+                
+                #(Transition delay)
+                delay_time = time.perf_counter()
+            
+                transitionDelay2 = open('delay.txt', 'a')
+                delay_time_total2 = round((delay_time - transmission_encrypt_stop), 3)
+                transitionDelay2.write('\nTransition Delay between sending of encrypted keys and end of thread code for' + str(connection) + ': ')
+                transitionDelay2.write(str(delay_time_total2))
+                transitionDelay2.close()
                 
             break
 
