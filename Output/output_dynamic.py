@@ -664,6 +664,7 @@ def handshake(CLIENT1, CLIENT2, CLIENT3, CLIENT4, OPCODE1, OPCODE2, OPCODE3, POS
     own_sock.listen(1)
     connection, output_address = own_sock.accept()
     with connection:
+        dragonfly_start = time.perf_counter()
         print ("Connecting from", output_address)
         raw_other_mac = connection.recv(1024)
 
@@ -736,10 +737,13 @@ def handshake(CLIENT1, CLIENT2, CLIENT3, CLIENT4, OPCODE1, OPCODE2, OPCODE3, POS
 
         dragonfly_time = time.perf_counter()
         time_elapsed = round((dragonfly_time - start), 3)
+        pairing_session = round((dragonfly_time - dragonfly_start), 3)
         print('Total time elapsed for Dragonfly Key Exchange:', time_elapsed, 's')
         f = open('timings.txt', 'a')
         f.write('Total time elapsed for Dragonfly Key Exchange:')
         f.write(str(time_elapsed))
+        f.write('Total time elapsed for pairing session:')
+        f.write(str(pairing_session))
         f.write("")
         f.close
 
@@ -1039,6 +1043,7 @@ def handshake(CLIENT1, CLIENT2, CLIENT3, CLIENT4, OPCODE1, OPCODE2, OPCODE3, POS
     time_elapsed1 = round((stop - dragonfly_time), 3)
     time_elapsed2 = round((stop - start), 3)
     print('Total time elapsed excluding Dragonfly Key Exchange:', time_elapsed1, 's')
+    print('Total time elapsed for Dragonfly Key Exchange:', time_elapsed, 's')
     print('Total time elapsed including Dragonfly Key Exchange:', time_elapsed2, 's')
     os.system('python3 reset.py')
 
