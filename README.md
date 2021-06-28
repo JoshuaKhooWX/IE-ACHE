@@ -52,7 +52,7 @@ $ make install
 1. Clone this repository
 ```bash
 $ cd /
-$ git clone https://github.com/kennethsoh/IE-ACHE.git
+$ git clone https://github.com/JoshuaKhooWX/IE-ACHE.git
 $ cd IE-ACHE
 
 # Provide executable permissions if needed
