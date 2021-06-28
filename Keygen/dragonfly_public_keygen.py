@@ -671,7 +671,7 @@ def handshake():
                 
                 transitionDelay = open('delay.txt', 'a')
                 delay_time_total = round((encrypt_start - dragonfly_stop), 3)
-                transitionDelay.write('\nTransition Delay between shared session and encryption' + str(self.connection) + ': ')
+                transitionDelay.write('\nTransition Delay between shared session and encryption' + str(connection) + ': ')
                 transitionDelay.write(str(delay_time_total))
                 transitionDelay.close()                
 
