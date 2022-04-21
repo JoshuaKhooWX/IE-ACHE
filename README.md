@@ -4,15 +4,11 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/kennethsoh/IE-ACHE)
 ![Lines of code](https://img.shields.io/tokei/lines/github/kennethsoh/IE-ACHE)
 
-This is an extension of an ongoing research project on Arithmetic Circuit Homomorphic encryption (ACHE) which was implemented based on Fast Fully Homomorphic Encryption over the Torus (TFHE). This iteration focuses on integrating ASN.1 Basic Encoding Rule for the purpose of computing results of integer expressions up to 3 operands. The previous version of the project can be found <a href="https://github.com/powderfool000/ambitioushomo" target="_blank">here</a>.
+This is an extension of an ongoing research project on Arithmetic Circuit Homomorphic encryption (ACHE) which was implemented based on Fast Fully Homomorphic Encryption over the Torus (TFHE). This iteration focuses on upgrading the authentication method of ellipctive curve diffie hellman (ECCH) to a Post Quantum authentication method, Super singular Isogeny Diffie Hellman (SIDH). The previous version of the project can be found <a href="https://github.com/kennethsoh/IE-ACHE" target="_blank">here</a>.
 
-This project was shared at the Asia Conference on Computers and Communications (ACCC) 2020 with two papers published: 
+This project was shared at the Asia Conference on Computers and Communications (ACCC) 2021 with one paper published: 
 
-<a href="https://ieeexplore.ieee.org/document/9347898" target="_blank">Applying Basic Encoding Rule (ITU-T X.690) on Integer Expressions using Arithmetic Circuit Homomorphic Encryption</a> 
-  
-and 
-
-<a href="https://ieeexplore.ieee.org/document/9347935" target="_blank">Multi-Precision Integer Arithmetic Processing Using Arithmetic Circuit Homomorphic Encryption</a> 
+<a href="https://ieeexplore.ieee.org/document/9681471" target="_blank">Arithmetic Circuit Homomorphic Encryption Key Pairing Comparisons and Analysis between Elliptic Curve Diffie Hellman and Supersingular Isogeny Diffie Hellman</a> 
 
 <br>
 
