@@ -1,10 +1,10 @@
-# Integer Expressions using Arithmetic Circuit Homomorphic Encryption
+# Arithmetic Circuit Homomorphic Encryption - Upgrading of ECDH to SIDH
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![GitHub issues](https://img.shields.io/github/issues/kennethsoh/IE-ACHE)
 ![GitHub repo size](https://img.shields.io/github/repo-size/kennethsoh/IE-ACHE)
 ![Lines of code](https://img.shields.io/tokei/lines/github/kennethsoh/IE-ACHE)
 
-This is an extension of an ongoing research project on Arithmetic Circuit Homomorphic encryption (ACHE) which was implemented based on Fast Fully Homomorphic Encryption over the Torus (TFHE). This iteration focuses on upgrading the authentication method of ellipctive curve diffie hellman (ECCH) to a Post Quantum authentication method, Super singular Isogeny Diffie Hellman (SIDH). The previous version of the project can be found <a href="https://github.com/kennethsoh/IE-ACHE" target="_blank">here</a>.
+This is an extension of an ongoing research project on Arithmetic Circuit Homomorphic encryption (ACHE) which was implemented based on Fast Fully Homomorphic Encryption over the Torus (TFHE). This iteration focuses on upgrading and comparing the current authentication method using ellipctive curve diffie hellman (ECCH) to a Post Quantum authentication method, Super singular Isogeny Diffie Hellman (SIDH). The previous version of the project can be found <a href="https://github.com/kennethsoh/IE-ACHE" target="_blank">here</a>.
 
 This project was shared at the Asia Conference on Computers and Communications (ACCC) 2021 with one paper published: 
 
